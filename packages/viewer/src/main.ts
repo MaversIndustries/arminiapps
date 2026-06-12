@@ -1,4 +1,6 @@
 import { ARMiniEngine } from './engine';
+import { supabase } from './supabase';
+import type { SceneManifest } from './types';
 
 const loading = document.getElementById('loading')!;
 const errorEl = document.getElementById('error')!;
@@ -9,14 +11,15 @@ const app = document.getElementById('app')!;
 async function main() {
   const params = new URLSearchParams(window.location.search);
   const sceneId = params.get('scene');
+  const slug = params.get('slug');
 
-  if (!sceneId) {
-    showError('Не указан ID сцены. Добавьте ?scene=xxx в URL');
+  if (!sceneId && !slug) {
+    showError('Укажите ?scene=id или ?slug=название');
     return;
   }
 
   try {
-    const manifest = await loadSceneManifest(sceneId);
+    const manifest = await loadSceneManifest(sceneId, slug);
     const engine = new ARMiniEngine();
 
     engine.on('error', (err) => showError(String(err)));
@@ -27,7 +30,6 @@ async function main() {
     await engine.loadScene(manifest);
     engine.mount(app);
 
-    // UI controls
     btnBack.addEventListener('click', () => {
       engine.unmount();
       window.history.back();
@@ -49,11 +51,26 @@ async function main() {
   }
 }
 
-async function loadSceneManifest(sceneId: string) {
-  // For MVP: try loading from JSON file or API
-  const res = await fetch(`/api/scenes/${sceneId}.json`);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
+async function loadSceneManifest(sceneId: string | null, slug: string | null): Promise<SceneManifest> {
+  const query = supabase
+    .from('scenes')
+    .select('manifest')
+    .eq('is_published', true)
+    .limit(1)
+    .single();
+
+  if (sceneId) query.eq('id', sceneId);
+  if (slug) query.eq('slug', slug);
+
+  const { data, error } = await query;
+  if (error || !data) throw new Error(error?.message ?? 'Сцена не найдена');
+
+  // Increment view count
+  if (sceneId) {
+    supabase.rpc('increment_view_count', { scene_id: sceneId }).catch(() => {});
+  }
+
+  return data.manifest as SceneManifest;
 }
 
 function showError(msg: string) {
