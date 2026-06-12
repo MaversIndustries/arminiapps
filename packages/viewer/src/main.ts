@@ -1,3 +1,4 @@
+// AR Mini Apps Viewer — loads and renders AR scenes from Supabase
 import { ARMiniEngine } from './engine';
 import { supabase } from './supabase';
 import type { SceneManifest } from './types';
