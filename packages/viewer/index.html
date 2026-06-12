@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>AR Mini Apps — Viewer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body, #app { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    #app { position: relative; }
+    #ui-overlay { position: absolute; top: 0; left: 0; right: 0; padding: 16px; display: flex; justify-content: space-between; pointer-events: none; z-index: 10; }
+    #ui-overlay button { pointer-events: auto; padding: 8px 16px; border: none; border-radius: 20px; background: rgba(0,0,0,0.5); color: #fff; font-size: 14px; cursor: pointer; backdrop-filter: blur(4px); }
+    #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-family: system-ui; z-index: 20; text-align: center; }
+    #error { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff4444; font-family: system-ui; z-index: 30; text-align: center; padding: 20px; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="ui-overlay">
+      <button id="btn-back">← Назад</button>
+      <button id="btn-fullscreen">⛶</button>
+    </div>
+    <div id="loading">Загрузка AR сцены...</div>
+    <div id="error"></div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
