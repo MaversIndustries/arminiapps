@@ -1,4 +1,3 @@
-// AR Mini Apps Viewer — loads and renders AR scenes from Supabase
 import { ARMiniEngine } from './engine';
 import { supabase } from './supabase';
 import type { SceneManifest } from './types';
@@ -8,6 +7,8 @@ const errorEl = document.getElementById('error')!;
 const btnBack = document.getElementById('btn-back')!;
 const btnFs = document.getElementById('btn-fullscreen')!;
 const app = document.getElementById('app')!;
+
+console.log('AR Viewer starting...');
 
 async function main() {
   const params = new URLSearchParams(window.location.search);
