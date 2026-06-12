@@ -52,23 +52,17 @@ async function main() {
 }
 
 async function loadSceneManifest(sceneId: string | null, slug: string | null): Promise<SceneManifest> {
-  const query = supabase
+  let query = supabase
     .from('scenes')
     .select('manifest')
     .eq('is_published', true)
-    .limit(1)
-    .single();
+    .limit(1);
 
-  if (sceneId) query.eq('id', sceneId);
-  if (slug) query.eq('slug', slug);
+  if (sceneId) query = query.eq('id', sceneId);
+  if (slug) query = query.eq('slug', slug);
 
-  const { data, error } = await query;
+  const { data, error } = await query.single();
   if (error || !data) throw new Error(error?.message ?? 'Сцена не найдена');
-
-  // Increment view count
-  if (sceneId) {
-    supabase.rpc('increment_view_count', { scene_id: sceneId }).catch(() => {});
-  }
 
   return data.manifest as SceneManifest;
 }
