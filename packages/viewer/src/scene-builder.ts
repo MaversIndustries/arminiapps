@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import type { SceneManifest, SceneNode } from '@arminiapps/shared';
+import type { SceneManifest, SceneNode } from './types';
 
 export function buildScene(manifest: SceneManifest): THREE.Group {
   const root = new THREE.Group();

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { IAREngine, EngineCapability, EngineStatus, PerformanceMetrics, EngineEvent, EngineEventType, PlatformEvent, SceneManifest } from '@arminiapps/shared';
+import type { IAREngine, EngineCapability, EngineStatus, PerformanceMetrics, EngineEvent, EngineEventType, PlatformEvent, SceneManifest } from './types';
 import { buildScene } from './scene-builder';
 
 export class ARMiniEngine implements IAREngine {
