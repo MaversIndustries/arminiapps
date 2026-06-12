@@ -1,4 +1,4 @@
-import type { SceneManifest } from '@arminiapps/shared';
+import type { SceneManifest } from '../types';
 
 interface Props {
   scenes: SceneManifest[];

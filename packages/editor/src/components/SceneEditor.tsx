@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { SceneManifest, SceneNode, TrackingMode, NodeType } from '@arminiapps/shared';
+import type { SceneManifest, SceneNode, TrackingMode, NodeType } from '../types';
 
 interface Props {
   scene: SceneManifest;
